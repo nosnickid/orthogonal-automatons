@@ -19,7 +19,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['react-hot', 'babel?plugins=babel-plugin-object-assign'],
       include: path.join(__dirname, 'src')
     }]
   }

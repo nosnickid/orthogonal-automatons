@@ -5,7 +5,7 @@ export const Coordinate = Record({
     y: null
 });
 
-export const Robot = Record({
+export const Automaton = Record({
     position: null,
     color: null
 });
@@ -15,7 +15,7 @@ export const Board = Record({
 
     dim: null,
 
-    robots: List(),
+    automatons: List(),
     walls: List()
 });
 

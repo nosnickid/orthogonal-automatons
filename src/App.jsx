@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import store from './GameStore';
-import { CREATE_BOARD } from './action/actions';
+import { CREATE_BOARD, POPULATE_TEST_BOARD } from './action/actions';
 
 import BoardList from './component/BoardList';
-import { getAllBoards } from './reducer/BoardState';
+import { getAllBoards, getAvailableMoves } from './reducer/BoardState';
 
 store.dispatch(CREATE_BOARD('test', 12, 12));
 
@@ -14,16 +14,29 @@ class App extends Component {
         return (
             <div>
                 <h1>Orthogonal Automatons</h1>
-                <BoardList boards={this.props.allBoards}/>
+                <BoardList {...this.props.boardList} />
             </div>
         );
     }
 }
 
 function mapState(state) {
-    return {
-        allBoards: getAllBoards(state)
-    }
+    let props = {};
+
+    props.boardList = {
+        allBoards: getAllBoards(state),
+        getBoardMoves: (id) => getAvailableMoves(id, state),
+    };
+
+    return props;
 }
 
-export default connect(mapState)(App);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+    const { dispatch } = dispatchProps;
+
+    stateProps.boardList.onPopulateTestBoard = (id) => dispatch(POPULATE_TEST_BOARD(id));
+
+    return Object.assign({}, stateProps, dispatchProps, ownProps);
+}
+
+export default connect(mapState, undefined, mergeProps)(App);

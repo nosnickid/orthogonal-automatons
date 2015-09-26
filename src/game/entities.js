@@ -10,6 +10,17 @@ let Automaton = Record({
     color: null
 });
 
+let Step = Record({
+    from: null,
+    to: null
+});
+
+Object.assign(Step.prototype, {
+    toString: function() {
+        return `${this.from.x},${this.from.y}=>${this.to.x},${this.to.y}`;
+    }
+});
+
 let Board = Record({
     id: null,
 
@@ -38,6 +49,16 @@ Object.assign(Board.prototype, {
                     encodeStep(0, y, -1, y),
                     encodeStep(maxX, y, maxX + 1, y)
                 ];
+            }),
+            this.automatons.toSeq().flatMap((automaton) => {
+                const { x, y } = automaton.position;
+
+                return [
+                    encodeStep(x, y, x + 1, y),
+                    encodeStep(x, y, x - 1, y),
+                    encodeStep(x, y, x, y + 1),
+                    encodeStep(x, y, x, y - 1)
+                ]
             })
         )
     },
@@ -46,6 +67,7 @@ Object.assign(Board.prototype, {
 
         let moves = List();
         this.automatons.forEach((automaton) => {
+
         });
 
         return moves;
@@ -53,10 +75,13 @@ Object.assign(Board.prototype, {
 });
 
 export function encodeStep(x1, y1, x2, y2) {
-    return `${x1},${y1}=>${x2},${y2}`;
+    return Step({
+        from: Coordinate({x: x1, y: y1}),
+        to: Coordinate({x: x2, y: y2})
+    });
 }
 
 
 export {
-    Coordinate, Automaton, Board
+    Coordinate, Automaton, Board, Step
 };

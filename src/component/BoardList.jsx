@@ -8,9 +8,11 @@ export default class extends React.Component {
 
             const automatons = board.automatons;
             
-            return (
+            let boardRows = [
                 <tr key={board.id}>
-                    <td>{board.id}</td>
+                    <td>
+                        <a onClick={() => this.props.onSelectBoard(board.id)}>{board.id}</a>
+                    </td>
                     <td>{board.dim.x} x {board.dim.y}</td>
                     <td>
                         <ul className="list-unstyled">
@@ -27,8 +29,20 @@ export default class extends React.Component {
                         </button>
                     </td>
                 </tr>
-            )
-        }).toArray();
+            ];
+
+            if (board.id == this.props.selectedBoardId) {
+                boardRows.push(
+                    <tr key="selected">
+                        <td colSpan="6">
+                            somethibng something
+                        </td>
+                    </tr>
+                );
+            }
+
+            return boardRows;
+        }).flatten().toArray();
 
         return (
             <table className="table table-striped table-bordered">

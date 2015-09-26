@@ -1,4 +1,5 @@
 import { Record, Map, List } from 'immutable';
+import MersenneTwister from 'mersennetwister';
 
 import { Board, Coordinate, Automaton } from '../game/entities.js';
 
@@ -22,6 +23,7 @@ const handlers = {
     },
     POPULATE_TEST_BOARD: (domain, action) => {
         const id = action.payload;
+        const mt = new MersenneTwister(id);
 
         if (!domain.boards.has(id)) {
             throw new Error("Unknown board " + id);
@@ -34,8 +36,8 @@ const handlers = {
         let automatons = [];
         for (var i = 0; i < 4; i++) {
             let position = Coordinate({
-                x: Math.floor(Math.random() * board.dim.x),
-                y: Math.floor(Math.random() * board.dim.y)
+                x: Math.floor(mt.random() * board.dim.x),
+                y: Math.floor(mt.random() * board.dim.y)
             });
             automatons.push(Automaton({
                 position, color: colors[i % colors.length]

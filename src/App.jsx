@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import store from './GameStore';
-import { CREATE_BOARD, POPULATE_TEST_BOARD } from './action/actions';
+import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD } from './action/actions';
 
 import BoardList from './component/BoardList';
 import { getAllBoards } from './reducer/BoardState';
@@ -24,7 +24,8 @@ function mapState(state) {
     let props = {};
 
     props.boardList = {
-        allBoards: getAllBoards(state)
+        allBoards: getAllBoards(state),
+        selectedBoardId: state.UiState.selectedBoardId
     };
 
     return props;
@@ -33,7 +34,10 @@ function mapState(state) {
 function mergeProps(stateProps, dispatchProps, ownProps) {
     const { dispatch } = dispatchProps;
 
-    stateProps.boardList.onPopulateTestBoard = (id) => dispatch(POPULATE_TEST_BOARD(id));
+    Object.assign(stateProps.boardList, {
+        onPopulateTestBoard: (id) => dispatch(POPULATE_TEST_BOARD(id)),
+        onSelectBoard: (id) => dispatch(SELECT_BOARD(id))
+    });
 
     return Object.assign({}, stateProps, dispatchProps, ownProps);
 }

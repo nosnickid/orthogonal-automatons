@@ -4,9 +4,12 @@ import thunk from 'redux-thunk';
 import { devTools } from 'redux-devtools';
 
 import BoardState from './reducer/BoardState';
+import UiState from './reducer/UiState';
 
 let app = combineReducers({
-    BoardState
+    BoardState,
+
+    UiState
 });
 
 export default compose(applyMiddleware(thunk), devTools())(createStore)(app);

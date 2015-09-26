@@ -29,6 +29,7 @@ Object.assign(Step.prototype, {
 
 let Board = Record({
     id: null,
+    seed: null,
 
     dim: null,
 

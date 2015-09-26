@@ -5,7 +5,7 @@ import store from './GameStore';
 import { CREATE_BOARD, POPULATE_TEST_BOARD } from './action/actions';
 
 import BoardList from './component/BoardList';
-import { getAllBoards, getAvailableMoves } from './reducer/BoardState';
+import { getAllBoards } from './reducer/BoardState';
 
 store.dispatch(CREATE_BOARD('test', 12, 12));
 
@@ -24,8 +24,7 @@ function mapState(state) {
     let props = {};
 
     props.boardList = {
-        allBoards: getAllBoards(state),
-        getBoardMoves: (id) => getAvailableMoves(id, state),
+        allBoards: getAllBoards(state)
     };
 
     return props;

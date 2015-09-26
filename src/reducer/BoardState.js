@@ -10,16 +10,6 @@ export function getAllBoards(state) {
     return state.BoardState.boards;
 }
 
-export function getAvailableMoves(id, state) {
-    if (!state.BoardState.boards.has(id)) {
-        throw new Error("Unknown board: " + id);
-    }
-
-    let board = state.BoardState.boards.get(id);
-
-    return List();
-}
-
 const handlers = {
     CREATE_BOARD: (domain, action) => {
         const { id, width, height } = action.payload;
@@ -39,10 +29,10 @@ const handlers = {
 
         const board = domain.boards.get(id);
 
-        const colors = [ 'red', 'green', 'blue', 'yellow' ];
+        const colors = ['red', 'green', 'blue', 'yellow'];
 
         let automatons = [];
-        for(var i = 0; i < 4; i++) {
+        for (var i = 0; i < 4; i++) {
             let position = Coordinate({
                 x: Math.floor(Math.random() * board.dim.x),
                 y: Math.floor(Math.random() * board.dim.y)
@@ -54,7 +44,7 @@ const handlers = {
 
         return domain
             .setIn(['boards', id, 'automatons'], List(automatons))
-        ;
+            ;
     }
 };
 

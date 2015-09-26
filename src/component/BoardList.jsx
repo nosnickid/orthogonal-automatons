@@ -3,7 +3,7 @@ import React from 'react';
 export default class extends React.Component {
     render() {
         const rows = this.props.allBoards.map((board) => {
-            let moves = this.props.getBoardMoves(board.id);
+            let moves = board.getAvailableMoves();
 
             const automatons = board.automatons;
             
@@ -14,7 +14,7 @@ export default class extends React.Component {
                     <td>
                         <ul className="list-unstyled">
                             {automatons.map((automaton) =>
-                                <li>{automaton.position.x}, {automaton.position.y}</li>
+                                <li>{automaton.color} @ ({automaton.position.x}, {automaton.position.y})</li>
                             )}
                         </ul>
                     </td>

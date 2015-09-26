@@ -5,6 +5,8 @@ import store from './GameStore';
 import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD } from './action/actions';
 
 import BoardList from './component/BoardList';
+import BoardDisplay from './component/BoardDisplay';
+
 import { getAllBoards } from './reducer/BoardState';
 
 store.dispatch(CREATE_BOARD('test', 12, 12));
@@ -15,6 +17,7 @@ class App extends Component {
             <div>
                 <h1>Orthogonal Automatons</h1>
                 <BoardList {...this.props.boardList} />
+                <BoardDisplay {...this.props.boardDisplay} />
             </div>
         );
     }
@@ -26,6 +29,10 @@ function mapState(state) {
     props.boardList = {
         allBoards: getAllBoards(state),
         selectedBoardId: state.UiState.selectedBoardId
+    };
+
+    props.boardDisplay = {
+        board: getAllBoards(state).get('test')
     };
 
     return props;

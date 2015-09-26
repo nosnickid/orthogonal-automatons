@@ -4,6 +4,7 @@ export default class extends React.Component {
     render() {
         const rows = this.props.allBoards.map((board) => {
             let moves = board.getAvailableMoves();
+            let blocks = board.getBlockedMoves();
 
             const automatons = board.automatons;
             
@@ -18,9 +19,8 @@ export default class extends React.Component {
                             )}
                         </ul>
                     </td>
-                    <td>
-                        {moves.count()}
-                    </td>
+                    <td>{moves.count()}</td>
+                    <td>{blocks.count()}</td>
                     <td>
                         <button type="button" className="btn btn-info" onClick={() => this.props.onPopulateTestBoard(board.id)}>
                             Test populate
@@ -38,6 +38,7 @@ export default class extends React.Component {
                         <th>Dimensions</th>
                         <th>Automatons at</th>
                         <th>Available Moves</th>
+                        <th>Blocks</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -64,6 +64,20 @@ describe('Board', () => {
 
         expect(blocked.count()).toBe(16 + 4 + 4);
     });
+    it('dedupes blocks', () => {
+        let automatons = List([
+            Automaton({position: Coordinate({ x: 0, y: 0 })})
+        ]);
+
+        let board = Board({
+            dim: Coordinate({x: 3, y: 3}),
+            automatons
+        });
+
+        let blocked = board.getBlockedMoves();
+
+        expect(blocked.count()).toBe(12 + 2);
+    });
 
 });
 

@@ -4,7 +4,7 @@ export default class extends React.Component {
     render() {
         const rows = this.props.allBoards.map((board) => {
             let moves = board.getAvailableMoves();
-            let blocks = board.getBlockedMoves();
+            let blocks = board.getBlockedSteps();
 
             const automatons = board.automatons;
             

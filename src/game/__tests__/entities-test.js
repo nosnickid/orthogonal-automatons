@@ -8,7 +8,7 @@ describe('Board', () => {
     it('instantiates', () => Board());
     it('blocks perimeter walls', () => {
         let board = Board({ dim: Coordinate({x: 3, y: 3}) });
-        let blocked = board.getBlockedMoves();
+        let blocked = board.getBlockedSteps();
 
         expect(blocked.count()).toBe(12);
 
@@ -30,7 +30,7 @@ describe('Board', () => {
             automatons: List([automaton])
         });
 
-        let blocked = board.getBlockedMoves();
+        let blocked = board.getBlockedSteps();
 
         expect(blocked.count()).toBe(16);
 
@@ -58,7 +58,7 @@ describe('Board', () => {
             automatons
         });
 
-        let blocked = board.getBlockedMoves();
+        let blocked = board.getBlockedSteps();
 
         expect(blocked.count()).toBe(16 + 4 + 4);
     });
@@ -72,7 +72,7 @@ describe('Board', () => {
             automatons
         });
 
-        let blocked = board.getBlockedMoves();
+        let blocked = board.getBlockedSteps();
 
         // expect the 12 usuals, plus two each the non-corner automatons
         expect(blocked.count()).toBe(12 + 2);
@@ -101,5 +101,36 @@ describe('Board', () => {
         expect(is(expected, moves)).toBe(true);
 
     });
+
+    it('bumps automatons into each other', () => {
+        const automaton = Automaton({position: Coordinate({ x: 2, y: 2 })});
+        const automatons = List([
+            automaton,
+            Automaton({position: Coordinate({ x: 0, y: 2 })})
+        ]);
+
+        let board = Board({
+            dim: Coordinate({x: 5, y: 5}),
+            automatons
+        });
+
+        let moves = board.getAvailableMoves();
+
+        expect(moves.count()).toBe(7);
+
+        let firstAutomatonMoves = moves.filter((move) => move.automaton.equals(automaton));
+
+        expect (firstAutomatonMoves.count()).toBe(4);
+
+        let expected = List([
+            Move({automaton, nextPosition: Coordinate({x: 4, y: 2})}),
+            Move({automaton, nextPosition: Coordinate({x: 1, y: 2})}),
+            Move({automaton, nextPosition: Coordinate({x: 2, y: 4})}),
+            Move({automaton, nextPosition: Coordinate({x: 2, y: 0})})
+        ]);
+
+        expect(is(expected, firstAutomatonMoves)).toBe(true);
+    });
+
 });
 

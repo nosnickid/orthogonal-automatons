@@ -23,7 +23,7 @@ const handlers = {
     },
     POPULATE_TEST_BOARD: (domain, action) => {
         const id = action.payload;
-        const mt = new MersenneTwister(id);
+        const mt = new MersenneTwister(Math.random());
 
         if (!domain.boards.has(id)) {
             throw new Error("Unknown board " + id);

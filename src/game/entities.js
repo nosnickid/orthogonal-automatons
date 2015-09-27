@@ -38,7 +38,7 @@ let Board = Record({
 });
 
 Object.assign(Board.prototype, {
-    getBlockedMoves: function () {
+    getBlockedSteps: function () {
         const maxX = this.dim.x - 1;
         const maxY = this.dim.y - 1;
 
@@ -57,7 +57,7 @@ Object.assign(Board.prototype, {
                     encodeStep(maxX, y,  1, 0)
                 ];
             }),
-            this.automatons.toSeq().flatMap((automaton) => {
+            this.automatons.flatMap((automaton) => {
                 const { x, y } = automaton.position;
 
                 return [
@@ -68,13 +68,13 @@ Object.assign(Board.prototype, {
                 ]
             }).filter((entry) =>
                 // ditch entries on existing perimeter walls.
-                (entry.to.x > 0 || entry.to.y > 0)
-                && (entry.from.x < maxX || entry.from.y < maxY)
+                entry.from.x > -1 && entry.from.y > -1
+                && entry.to.x <= maxX && entry.to.y <= maxY
             )
         )
     },
     getAvailableMoves: function () {
-        let allBlockedMoves = this.getBlockedMoves();
+        let allBlockedSteps = this.getBlockedSteps();
 
         const directions = List([
             [ 1, 0 ],
@@ -84,15 +84,15 @@ Object.assign(Board.prototype, {
         ]);
 
         return this.automatons.flatMap((automaton) => {
-            const blockedMoves = allBlockedMoves.filter(
-                (move) => move.automaton != automaton
-            );
+            const blockedSteps = allBlockedSteps.filter(
+                (step) => step.automaton != automaton
+            ).map((step) => step.set('automaton', undefined));
 
             return directions.map(([dx, dy]) => {
                 let position = automaton.position;
                 let step = encodeStep(position.x, position.y, dx, dy);
 
-                while(!blockedMoves.has(step)) {
+                while(!blockedSteps.has(step)) {
                     position = Coordinate({
                         x: position.x + dx,
                         y: position.y + dy

@@ -29,8 +29,8 @@ export default class extends React.Component {
             let cells = [];
             for(let x = 0; x < board.dim.x; x++) {
                 const coord = Coordinate({x, y});
-                const onMouseOver = () => this.props.onHoverAutomaton(board.automatons.find((a) => a.position.equals(coord)))
-                const onMouseOut =  () => this.props.onHoverAutomaton(null)
+                const onMouseOver = () => this.props.onHoverAutomaton(board.automatons.find((a) => a.position.equals(coord)));
+                const onMouseOut =  () => this.props.onHoverAutomaton(null);
 
                 let className = positionClasses.get(Coordinate({x, y}));
 

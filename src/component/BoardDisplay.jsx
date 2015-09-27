@@ -10,8 +10,23 @@ export default class extends React.Component {
             let cells = [];
             for(let x = 0; x < this.props.board.dim.x; x++) {
                 const coord = Coordinate({x, y});
-                let className = automatonPositions.has(coord) ? 'active' : '';
-                cells.push(<span key={x} className={className}></span>);
+                const hasAutomaton = automatonPositions.has(coord);
+                const onMouseOver = hasAutomaton ?
+                    () => this.props.onHoverAutomaton(this.props.board.automatons.find((a) => a.position.equals(coord)))
+                    : null;
+                const onMouseOut = hasAutomaton ?
+                    () => this.props.onHoverAutomaton(null)
+                    : null;
+                let className = hasAutomaton ? 'active' : '';
+                if (this.props.hoverAutomaton && this.props.hoverAutomaton.position.equals(coord)) {
+                    className += ' hover';
+                }
+
+                cells.push(
+                    <span key={x} className={className}
+                          onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+                    </span>
+                );
             }
             rows.push(<div key={y} className="row">{cells}</div>)
         }

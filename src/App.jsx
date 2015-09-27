@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import store from './GameStore';
-import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD } from './action/actions';
+import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD, OH_HOVER_AUTOMATON } from './action/actions';
 
 import BoardList from './component/BoardList';
 import BoardDisplay from './component/BoardDisplay';
@@ -32,7 +32,8 @@ function mapState(state) {
     };
 
     props.boardDisplay = {
-        board: getAllBoards(state).get('test')
+        board: getAllBoards(state).get('test'),
+        hoverAutomaton: state.UiState.hoverAutomaton
     };
 
     return props;
@@ -44,6 +45,10 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     Object.assign(stateProps.boardList, {
         onPopulateTestBoard: (id) => dispatch(POPULATE_TEST_BOARD(id)),
         onSelectBoard: (id) => dispatch(SELECT_BOARD(id))
+    });
+
+    Object.assign(stateProps.boardDisplay, {
+        onHoverAutomaton: (automaton) => dispatch(OH_HOVER_AUTOMATON(automaton))
     });
 
     return Object.assign({}, stateProps, dispatchProps, ownProps);

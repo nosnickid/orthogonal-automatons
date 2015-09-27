@@ -1,12 +1,16 @@
 import { Record, Map, List } from 'immutable';
 
 const State = Record({
-    selectedBoardId: null
+    selectedBoardId: null,
+    hoverAutomaton:  null
 });
 
 const handlers = {
     SELECT_BOARD: (domain, action) => {
         return domain.set('selectedBoardId', action.payload);
+    },
+    OH_HOVER_AUTOMATON: (domain, action) => {
+        return domain.set('hoverAutomaton', action.payload);
     }
 };
 

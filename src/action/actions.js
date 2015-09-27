@@ -6,7 +6,9 @@ const actions = {
     ),
     POPULATE_TEST_BOARD: createAction('POPULATE_TEST_BOARD'),
 
-    SELECT_BOARD: createAction('SELECT_BOARD')
+    SELECT_BOARD: createAction('SELECT_BOARD'),
+
+    OH_HOVER_AUTOMATON: createAction('OH_HOVER_AUTOMATON')
 };
 
 export default actions;

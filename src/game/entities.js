@@ -11,7 +11,6 @@ let Automaton = Record({
 });
 
 let Step = Record({
-    automaton: null,
     from: null,
     to: null
 });
@@ -61,16 +60,12 @@ Object.assign(Board.prototype, {
                 const { x, y } = automaton.position;
 
                 return [
-                    encodeStep(x, y,  1,  0, automaton),
-                    encodeStep(x, y, -1,  0, automaton),
-                    encodeStep(x, y,  0,  1, automaton),
-                    encodeStep(x, y,  0, -1, automaton)
+                    encodeStep(x, y,  1,  0),
+                    encodeStep(x, y, -1,  0),
+                    encodeStep(x, y,  0,  1),
+                    encodeStep(x, y,  0, -1)
                 ]
-            }).filter((entry) =>
-                // ditch entries on existing perimeter walls.
-                entry.from.x > -1 && entry.from.y > -1
-                && entry.to.x <= maxX && entry.to.y <= maxY
-            )
+            })
         )
     },
     getAvailableMoves: function () {
@@ -83,10 +78,20 @@ Object.assign(Board.prototype, {
             [ 0, -1 ]
         ]);
 
+        const maxX = this.dim.x - 1;
+        const maxY = this.dim.y - 1;
+
         return this.automatons.flatMap((automaton) => {
-            const blockedSteps = allBlockedSteps.filter(
-                (step) => step.automaton != automaton
-            ).map((step) => step.set('automaton', undefined));
+            const blockedSteps = allBlockedSteps.filter((step) =>
+                // exclude self blocking moves
+                (!immutableIs(step.from, automaton.position)
+                && !immutableIs(step.to, automaton.position))
+                // unless they're border moves.
+                || (
+                    step.from.x == -1 || step.from.y == -1
+                    || step.to.x > maxX || step.to.y > maxY
+                )
+            );
 
             return directions.map(([dx, dy]) => {
                 let position = automaton.position;
@@ -112,18 +117,16 @@ Object.assign(Board.prototype, {
     }
 });
 
-export function encodeStep(x, y, dx, dy, automaton) {
+export function encodeStep(x, y, dx, dy) {
     if (dx < 0 || dy < 0) {
         return Step({
             from: Coordinate({x: x + dx, y: y + dy}),
             to: Coordinate({x: x, y: y}),
-            automaton
         });
     } else {
         return Step({
             from: Coordinate({x: x, y: y}),
             to: Coordinate({x: x + dx, y: y + dy}),
-            automaton
         });
     }
 }

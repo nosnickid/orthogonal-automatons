@@ -34,15 +34,17 @@ describe('Board', () => {
 
         expect(blocked.count()).toBe(16);
 
-        let automatonSpecific = blocked.filter((entry) => !!entry.automaton);
+        let automatonSpecific = blocked.filter(
+            (entry) => entry.from.equals(automaton.position) || entry.to.equals(automaton.position)
+        );
 
         expect(automatonSpecific.count()).toBe(4);
 
         let expected = Set([
-            Step({ automaton, from: Coordinate({x: 1, y: 1}), to: Coordinate({x: 2, y: 1}) }),
-            Step({ automaton, to: Coordinate({x: 1, y: 1}), from: Coordinate({x: 0, y: 1}) }),
-            Step({ automaton, from: Coordinate({x: 1, y: 1}), to: Coordinate({x: 1, y: 2}) }),
-            Step({ automaton, to: Coordinate({x: 1, y: 1}), from: Coordinate({x: 1, y: 0}) })
+            Step({ from: Coordinate({x: 1, y: 1}), to: Coordinate({x: 2, y: 1}) }),
+            Step({ to: Coordinate({x: 1, y: 1}), from: Coordinate({x: 0, y: 1}) }),
+            Step({ from: Coordinate({x: 1, y: 1}), to: Coordinate({x: 1, y: 2}) }),
+            Step({ to: Coordinate({x: 1, y: 1}), from: Coordinate({x: 1, y: 0}) })
         ]);
 
         expect(is(expected, automatonSpecific)).toBe(true);

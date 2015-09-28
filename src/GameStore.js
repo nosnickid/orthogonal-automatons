@@ -12,4 +12,4 @@ let app = combineReducers({
     UiState
 });
 
-export default compose(applyMiddleware(thunk), devTools())(createStore)(app);
+export default compose(applyMiddleware(thunk))(createStore)(app);

@@ -9,7 +9,7 @@ import BoardDisplay from './component/BoardDisplay';
 
 import { getAllBoards } from './reducer/BoardState';
 
-store.dispatch(CREATE_BOARD('test', 12, 12));
+store.dispatch(CREATE_BOARD('test', 16, 16));
 
 class App extends Component {
     render() {

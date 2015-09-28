@@ -1,7 +1,7 @@
 import { Record, Map, List } from 'immutable';
 import MersenneTwister from 'mersennetwister';
 
-import { Board, Coordinate, Automaton } from '../game/entities.js';
+import { Board, Coordinate, Automaton, encodeStep } from '../game/entities.js';
 
 const State = Record({
     boards: Map()
@@ -34,7 +34,7 @@ const handlers = {
         const colors = ['red', 'green', 'blue', 'yellow'];
 
         let automatons = [];
-        for (var i = 0; i < 4; i++) {
+        for (let i = 0; i < 4; i++) {
             let position = Coordinate({
                 x: Math.floor(mt.random() * board.dim.x),
                 y: Math.floor(mt.random() * board.dim.y)
@@ -44,8 +44,25 @@ const handlers = {
             }));
         }
 
+        const x2 = (board.dim.x / 2) - 1;
+        const y2 = (board.dim.y / 2) - 1;
+        let walls = [
+            encodeStep(x2,     y2,  0, -1),
+            encodeStep(x2 + 1, y2,  0, -1),
+
+            encodeStep(x2, y2,     -1,  0),
+            encodeStep(x2, y2 + 1, -1,  0),
+
+            encodeStep(x2,     y2 + 1,  0, 1),
+            encodeStep(x2 + 1, y2 + 1,  0, 1),
+
+            encodeStep(x2 + 1, y2,      1,  0),
+            encodeStep(x2 + 1, y2 + 1,  1,  0)
+        ];
+
         return domain
             .setIn(['boards', id, 'automatons'], List(automatons))
+            .setIn(['boards', id, 'walls'], List(walls))
             ;
     }
 };

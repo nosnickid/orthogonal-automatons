@@ -65,7 +65,8 @@ Object.assign(Board.prototype, {
                     encodeStep(x, y,  0,  1),
                     encodeStep(x, y,  0, -1)
                 ]
-            })
+            }),
+            this.walls
         )
     },
     getAvailableMoves: function () {

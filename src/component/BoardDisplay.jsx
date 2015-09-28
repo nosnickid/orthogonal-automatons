@@ -13,15 +13,18 @@ export default class extends React.Component {
         if (hoverAutomaton) {
             positionClasses = positionClasses.set(hoverAutomaton.position, 'automaton active');
 
-            window.console.log('all moves', board.getAvailableMoves().toJS());
-
             board.getAvailableMoves()
                 .filter((move) => move.automaton.equals(hoverAutomaton))
                 .forEach((move) => positionClasses = positionClasses.set(move.nextPosition, 'move'))
             ;
-            window.console.log("classes", positionClasses.toJS());
-
         }
+
+        positionClasses = positionClasses
+            .set(Coordinate({x: 7, y: 7}), 'red')
+            .set(Coordinate({x: 8, y: 7}), 'red')
+            .set(Coordinate({x: 7, y: 8}), 'red')
+            .set(Coordinate({x: 8, y: 8}), 'red')
+        ;
 
 
         let rows = [];

@@ -22,6 +22,13 @@ export default class BoardList extends React.Component {
                             )}
                         </ul>
                     </td>
+                    <td>
+                        <ul className="list-unstyled">
+                            {board.targets.map((target) =>
+                                <li>{target.automaton.color} @ ({target.position.x}, {target.position.y})</li>
+                            )}
+                        </ul>
+                    </td>
                     <td>{moves.count()}</td>
                     <td>{blocks.count()}</td>
                     <td>
@@ -52,6 +59,7 @@ export default class BoardList extends React.Component {
                         <th>Board ID</th>
                         <th>Dimensions</th>
                         <th>Automatons at</th>
+                        <th>Targets At</th>
                         <th>Available Moves</th>
                         <th>Blocks</th>
                         <th>Actions</th>

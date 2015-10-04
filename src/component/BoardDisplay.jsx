@@ -19,12 +19,19 @@ export default class BoardDisplay extends React.Component {
             ;
         }
 
-        positionClasses = positionClasses
-            .set(Coordinate({x: 7, y: 7}), 'red')
-            .set(Coordinate({x: 8, y: 7}), 'red')
-            .set(Coordinate({x: 7, y: 8}), 'red')
-            .set(Coordinate({x: 8, y: 8}), 'red')
-        ;
+        positionClasses = positionClasses.withMutations((classes) => {
+            classes
+                .set(Coordinate({x: 7, y: 7}), 'red')
+                .set(Coordinate({x: 8, y: 7}), 'red')
+                .set(Coordinate({x: 7, y: 8}), 'red')
+                .set(Coordinate({x: 8, y: 8}), 'red')
+            ;
+
+            board.targets.forEach((target) => {
+                classes.set(target.position, 'target');
+            })
+
+        });
 
 
         let rows = [];

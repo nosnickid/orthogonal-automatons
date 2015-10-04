@@ -1,7 +1,7 @@
 import MersenneTwister from 'mersennetwister';
-import { List } from 'immutable';
+import { List, Range } from 'immutable';
 
-import { Board, Coordinate, Automaton, encodeStep } from '../game/entities.js';
+import { Board, Coordinate, Automaton, Target, encodeStep } from '../game/entities.js';
 
 export class BoardPopulate {
     populateCenterWall(board) {
@@ -42,5 +42,26 @@ export class BoardPopulate {
         }
 
         return board.set('automatons', List(automatons));
+    }
+
+    populateBotTargets(board) {
+        const mt = new MersenneTwister(Math.random() * 65535);
+        const targetsPerBot = 4;
+
+        let targets = board.automatons.map((automaton) => {
+            return Range(0, targetsPerBot).map((i) => {
+                const position = Coordinate({
+                    x: Math.floor(mt.random() * board.dim.x),
+                    y: Math.floor(mt.random() * board.dim.y)
+                });
+                const orientation = Math.floor(mt.random() * 4);
+
+                return Target({
+                    automaton, position, orientation
+                })
+            });
+        }).flatten(1);
+
+        return board.set('targets', targets);
     }
 }

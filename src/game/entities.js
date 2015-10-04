@@ -20,6 +20,12 @@ let Move = Record({
     nextPosition: null
 });
 
+let Target = Record({
+    automaton: null,
+    position: null,
+    orientation: null
+});
+
 Object.assign(Step.prototype, {
     toString: function() {
         return `${this.from.x},${this.from.y}=>${this.to.x},${this.to.y}`;
@@ -33,13 +39,21 @@ let Board = Record({
     dim: null,
 
     automatons: List(),
-    walls: List()
+    walls: List(),
+    targets: List()
 });
 
 Object.assign(Board.prototype, {
     getBlockedSteps: function () {
         const maxX = this.dim.x - 1;
         const maxY = this.dim.y - 1;
+
+        const targetOrientationMap = [
+            [ -1,  0 ],
+            [  0, -1 ],
+            [  1,  0 ],
+            [  0,  1     ]
+        ];
 
         return Set().union(
             // Out the top/bottom
@@ -66,7 +80,15 @@ Object.assign(Board.prototype, {
                     encodeStep(x, y,  0, -1)
                 ]
             }),
-            this.walls
+            this.walls,
+            this.targets.flatMap((target) => {
+                const d0 = targetOrientationMap[target.orientation];
+                const d1 = targetOrientationMap[(target.orientation + 1) % targetOrientationMap.length];
+                return [
+                    encodeStep(target.position.x, target.position.y, d0[0], d0[1]),
+                    encodeStep(target.position.x, target.position.y, d1[0], d1[1])
+                ];
+            })
         )
     },
     getAvailableMoves: function () {
@@ -134,5 +156,5 @@ export function encodeStep(x, y, dx, dy) {
 
 
 export {
-    Coordinate, Automaton, Board, Step, Move
+    Coordinate, Automaton, Board, Step, Move, Target
 };

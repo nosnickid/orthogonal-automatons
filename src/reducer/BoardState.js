@@ -35,6 +35,7 @@ const handlers = {
         const populator = new BoardPopulate();
         board = populator.populateCenterWall(board);
         board = populator.populateRandomBotPositions(board);
+        board = populator.populateBotTargets(board);
 
         return domain.setIn(['boards', id], board);
     }

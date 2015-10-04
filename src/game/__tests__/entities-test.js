@@ -2,7 +2,7 @@ jest.dontMock('../entities');
 jest.dontMock('immutable');
 
 describe('Board', () => {
-    var { Board, Coordinate, Automaton, Step, Move } = require('../entities');
+    var { Board, Coordinate, Automaton, Step, Move, Target } = require('../entities');
     var { List, Set, is } = require('immutable');
 
     it('instantiates', () => Board());
@@ -64,6 +64,66 @@ describe('Board', () => {
 
         expect(blocked.count()).toBe(16 + 4 + 4);
     });
+
+    it('blocks target positions', () => {
+        let target = Target({
+            position: Coordinate({ x: 1, y: 1 }),
+            orientation: 0
+        });
+
+        let board = Board({
+            dim: Coordinate({x: 3, y: 3}),
+            targets: List([target])
+        });
+
+        let blocked = board.getBlockedSteps();
+
+        expect(blocked.count()).toBe(14);
+
+        let targetSpecific = blocked.filter(
+            (entry) => entry.from.equals(target.position) || entry.to.equals(target.position)
+        );
+
+        expect(targetSpecific.count()).toBe(2);
+
+        let expected = Set([
+            Step({ from: Coordinate({x: 0, y: 1}), to: Coordinate({x: 1, y: 1}) }),
+            Step({ from: Coordinate({x: 1, y: 0}), to: Coordinate({x: 1, y: 1}) })
+        ]);
+
+        expect(is(expected, targetSpecific)).toBe(true);
+    });
+
+    it('blocks target orientation 3', () => {
+        let target = Target({
+            position: Coordinate({ x: 1, y: 1 }),
+            orientation: 3
+        });
+
+        let board = Board({
+            dim: Coordinate({x: 3, y: 3}),
+            targets: List([target])
+        });
+
+        let blocked = board.getBlockedSteps();
+
+        expect(blocked.count()).toBe(14);
+
+        let targetSpecific = blocked.filter(
+            (entry) => entry.from.equals(target.position) || entry.to.equals(target.position)
+        );
+
+        expect(targetSpecific.count()).toBe(2);
+
+        let expected = Set([
+            Step({ from: Coordinate({x: 1, y: 1}), to: Coordinate({x: 1, y: 2}) }),
+            Step({ from: Coordinate({x: 0, y: 1}), to: Coordinate({x: 1, y: 1}) })
+        ]);
+
+
+        expect(is(expected, targetSpecific)).toBe(true);
+    });
+
     it('dedupes blocks', () => {
         let automatons = List([
             Automaton({position: Coordinate({ x: 0, y: 0 })})

@@ -2,7 +2,7 @@ import React from 'react';
 import { Coordinate } from '../game/entities.js';
 import { Map } from 'immutable';
 
-export default class extends React.Component {
+export default class BoardDisplay extends React.Component {
     render() {
         const { board, hoverAutomaton } = this.props;
         

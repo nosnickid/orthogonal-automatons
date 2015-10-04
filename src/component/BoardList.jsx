@@ -1,6 +1,7 @@
 import React from 'react';
+import { List } from 'immutable';
 
-export default class extends React.Component {
+export default class BoardList extends React.Component {
     render() {
         const rows = this.props.allBoards.map((board) => {
             let moves = board.getAvailableMoves();
@@ -8,7 +9,7 @@ export default class extends React.Component {
 
             const automatons = board.automatons;
             
-            let boardRows = [
+            let boardRows = List([
                 <tr key={board.id}>
                     <td>
                         <a onClick={() => this.props.onSelectBoard(board.id)}>{board.id}</a>
@@ -29,10 +30,10 @@ export default class extends React.Component {
                         </button>
                     </td>
                 </tr>
-            ];
+            ]);
 
             if (board.id == this.props.selectedBoardId) {
-                boardRows.push(
+                boardRows = boardRows.push(
                     <tr key="selected">
                         <td colSpan="6">
                             somethibng something

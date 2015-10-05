@@ -1,14 +1,15 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from './GameStore';
 import { DebugPanel, DevTools, LogMonitor } from 'redux-devtools/lib/react';
 
-import App from './App';
+import store from '../GameStore';
+
+import BoardPlay from '../component/BoardPlay';
 
 React.render(
     <div>
         <Provider store={store}>
-            {() => <App  />}
+            {() => <BoardPlay />}
         </Provider>
 
     </div>,

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import store from './GameStore';
-import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD, OH_HOVER_AUTOMATON } from './action/actions';
+import store from '../GameStore';
+import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD, OH_HOVER_AUTOMATON } from '../action/actions';
 
-import BoardList from './component/BoardList';
-import BoardDisplay from './component/BoardDisplay';
+import BoardList from '../component/BoardList';
+import BoardDisplay from '../component/BoardDisplay';
 
-import { getAllBoards } from './reducer/BoardState';
+import { getAllBoards } from '../reducer/BoardState';
 
 store.dispatch(CREATE_BOARD('test', 16, 16));
 
-class App extends Component {
+class BoardPlay extends Component {
     render() {
         return (
             <div>
@@ -54,4 +54,4 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     return Object.assign({}, stateProps, dispatchProps, ownProps);
 }
 
-export default connect(mapState, undefined, mergeProps)(App);
+export default connect(mapState, undefined, mergeProps)(BoardPlay);

@@ -1,13 +1,27 @@
 import React from 'react';
-import { Coordinate } from '../game/entities.js';
+import { Coordinate, StepDirections, encodeStep } from '../game/entities.js';
 import { Map } from 'immutable';
 
 export default class BoardDisplay extends React.Component {
     render() {
         const { board, hoverAutomaton } = this.props;
+
+        const blockedSteps = board.getBlockedSteps();
         
         let positionClasses = Map(
             board.automatons.map((automaton) => [automaton.position, 'automaton'])
+        );
+
+        const targetClasses = [ 'snowflake', 'heart', 'leaf', 'glass', 'compass' ];
+        const automatonTargetCount = { };
+
+        let positionIcons = Map(
+            board.targets.map((target) => {
+                if (!automatonTargetCount[target.automaton.color]) automatonTargetCount[target.automaton.color] = 0;
+                const icon = targetClasses[automatonTargetCount[target.automaton.color]++];
+
+                return [ target.position,  'glyphicon glyphicon-' + icon]
+            })
         );
 
         if (hoverAutomaton) {
@@ -26,13 +40,10 @@ export default class BoardDisplay extends React.Component {
                 .set(Coordinate({x: 7, y: 8}), 'red')
                 .set(Coordinate({x: 8, y: 8}), 'red')
             ;
-
-            board.targets.forEach((target) => {
-                classes.set(target.position, 'target');
-            })
-
         });
 
+        // these correspond to StepDirections.
+        const stepClasses = [ 'r', 'l', 'd', 'u' ];
 
         let rows = [];
         for(let y = 0; y < board.dim.y; y++) {
@@ -41,22 +52,32 @@ export default class BoardDisplay extends React.Component {
                 const coord = Coordinate({x, y});
                 const onMouseOver = () => this.props.onHoverAutomaton(board.automatons.find((a) => a.position.equals(coord)));
                 const onMouseOut =  () => this.props.onHoverAutomaton(null);
+                let className = positionClasses.get(coord);
+                if (className == undefined) className = '';
 
-                let className = positionClasses.get(Coordinate({x, y}));
+                StepDirections.forEach((direction, i) => {
+                    let step = encodeStep(x, y, direction.x, direction.y);
+                    if (blockedSteps.has(step)) {
+                        className += ' wall-' + stepClasses[i];
+                    }
+                });
 
                 cells.push(
-                    <span key={x} className={className}
+                    <span key={x} className={'tile ' + className}
                           onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+                        {positionIcons.has(coord) ?
+                        <span className={positionIcons.get(coord)}></span>
+                        :null}
                     </span>
                 );
             }
-            rows.push(<div key={y} className="row">{cells}</div>)
+            rows.push(<div key={y} className="board-row">{cells}</div>)
         }
 
         return (
             <div className="row">
-                <div className="col-xs-push-2 col-xs-6">
-                    <div className="board">
+                <div className="col-xs-push-2- col-xs-6">
+                    <div className="gfx-board">
                         {rows}
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import { Record, Set, List, Range, is as immutableIs } from 'immutable';
 
+
 let Coordinate = Record({
     x: null,
     y: null
@@ -10,16 +11,28 @@ let Automaton = Record({
     color: null
 });
 
+/**
+ * A normalized encoding of a step.
+ *
+ * Used as steps an automaton is trying to make in a move,
+ * or as a step that is blocked because of a wall / automaton.
+ */
 let Step = Record({
     from: null,
     to: null
 });
 
+/**
+ * A new position that an automaton move to.
+ */
 let Move = Record({
     automaton: null,
     nextPosition: null
 });
 
+/**
+ * A location that an automaton is trying to get to.
+ */
 let Target = Record({
     automaton: null,
     position: null,
@@ -94,13 +107,6 @@ Object.assign(Board.prototype, {
     getAvailableMoves: function () {
         let allBlockedSteps = this.getBlockedSteps();
 
-        const directions = List([
-            [ 1, 0 ],
-            [ -1, 0 ],
-            [ 0, 1 ],
-            [ 0, -1 ]
-        ]);
-
         const maxX = this.dim.x - 1;
         const maxY = this.dim.y - 1;
 
@@ -116,16 +122,16 @@ Object.assign(Board.prototype, {
                 )
             );
 
-            return directions.map(([dx, dy]) => {
+            return StepDirections.map((d) => {
                 let position = automaton.position;
-                let step = encodeStep(position.x, position.y, dx, dy);
+                let step = encodeStep(position.x, position.y, d.x, d.y);
 
                 while(!blockedSteps.has(step)) {
                     position = Coordinate({
-                        x: position.x + dx,
-                        y: position.y + dy
+                        x: position.x + d.x,
+                        y: position.y + d.y
                     });
-                    step = encodeStep(position.x, position.y, dx, dy);
+                    step = encodeStep(position.x, position.y, d.x, d.y);
                 }
 
                 if (!immutableIs(position, automaton.position)) {
@@ -158,7 +164,15 @@ export function encodeStep(x, y, dx, dy) {
     }
 }
 
+const StepDirections = List([
+    Coordinate({x: 1, y: 0}),
+    Coordinate({x: -1, y: 0}),
+    Coordinate({x: 0, y: 1}),
+    Coordinate({x: 0, y: -1})
+]);
 
 export {
-    Coordinate, Automaton, Board, Step, Move, Target
+    Coordinate, Automaton, Board, Step, Move, Target,
+
+    StepDirections
 };

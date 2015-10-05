@@ -7,6 +7,7 @@ module.exports = {
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
         'bootstrap-webpack!' + path.resolve(__dirname + '/bootstrap.config.js'),
+        '!style!css!!less!' + path.resolve(__dirname + '/ortho-automatons.less'),
         './src/index'
     ],
     output: {

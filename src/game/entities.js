@@ -140,6 +140,10 @@ Object.assign(Board.prototype, {
     }
 });
 
+/**
+ * Encode steps in an 'always increasing position' manner, to make comparison
+ * simple.
+ */
 export function encodeStep(x, y, dx, dy) {
     if (dx < 0 || dy < 0) {
         return Step({

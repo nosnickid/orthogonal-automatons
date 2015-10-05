@@ -1,0 +1,30 @@
+@import './node_modules/bootstrap/less/variables.less';
+@import './node_modules/bootstrap/less/glyphicons.less';
+
+div.board {
+  span {
+    border: 1px solid black;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    &.automaton {
+      background: blue;
+    }
+    &.active {
+      background: purple;
+    }
+
+    &.move {
+      background: yellow;
+    }
+
+    &.red {
+      background: red;
+    }
+
+    &.target {
+      background: orange;
+
+    }
+  }
+}

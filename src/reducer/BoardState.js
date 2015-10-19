@@ -7,10 +7,6 @@ const State = Record({
     boards: Map()
 });
 
-export function getAllBoards(state) {
-    return state.BoardState.boards;
-}
-
 const handlers = {
     CREATE_BOARD: (domain, action) => {
         const { id, width, height } = action.payload;
@@ -49,4 +45,12 @@ export default function BoardState(domain, action) {
     } else {
         return domain;
     }
+}
+
+export function getAllBoards(state) {
+    return state.BoardState.boards;
+}
+
+export function getBoard(boardId, state) {
+    return state.BoardState.boards.get(boardId);
 }

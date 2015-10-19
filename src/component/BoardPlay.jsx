@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import store from '../GameStore';
-import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD, OH_HOVER_AUTOMATON } from '../action/actions';
+import { CREATE_BOARD, POPULATE_TEST_BOARD, SELECT_BOARD, OH_HOVER_AUTOMATON } from '../action/BoardActions';
 
 import BoardList from '../component/BoardList';
 import BoardDisplay from '../component/BoardDisplay';

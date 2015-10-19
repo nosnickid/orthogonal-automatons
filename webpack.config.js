@@ -14,6 +14,7 @@ module.exports = {
     devtool: 'eval',
     entry: {
         BoardPlay: addDeps('./src/page/BoardPlayPage'),
+        OnePlayerGame: addDeps('./src/page/OnePlayerGamePage')
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -26,7 +27,7 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.jsx?$/,
-            loaders: ['react-hot', 'babel?plugins=babel-plugin-object-assign'],
+            loaders: ['react-hot', 'babel?plugins=babel-plugin-object-assign&cacheDirectory'],
             include: path.join(__dirname, 'src')
         }, {
             test: /\.woff2?$/,

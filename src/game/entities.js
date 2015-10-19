@@ -154,12 +154,12 @@ export function encodeStep(x, y, dx, dy) {
     if (dx < 0 || dy < 0) {
         return Step({
             from: Coordinate({x: x + dx, y: y + dy}),
-            to: Coordinate({x: x, y: y}),
+            to: Coordinate({x: x, y: y})
         });
     } else {
         return Step({
             from: Coordinate({x: x, y: y}),
-            to: Coordinate({x: x + dx, y: y + dy}),
+            to: Coordinate({x: x + dx, y: y + dy})
         });
     }
 }

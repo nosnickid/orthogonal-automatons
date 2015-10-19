@@ -6,7 +6,7 @@ function addDeps(to) {
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
         'bootstrap-webpack!' + path.resolve(__dirname + '/bootstrap.config.js'),
-        '!style!css!!less!' + path.resolve(__dirname + '/ortho-automatons.less'),
+        '!style!css!!less!' + path.resolve(__dirname + '/ortho-automatons.less')
     ].concat(to);
 }
 
@@ -30,16 +30,16 @@ module.exports = {
             include: path.join(__dirname, 'src')
         }, {
             test: /\.woff2?$/,
-            loader: "url-loader?limit=10000&mimetype=application/font-woff"
+            loader: 'url-loader?limit=10000&mimetype=application/font-woff'
         }, {
             test: /\.ttf$/,
-            loader: "file-loader"
+            loader: 'file-loader'
         }, {
             test: /\.eot$/,
-            loader: "file-loader"
+            loader: 'file-loader'
         }, {
             test: /\.svg$/,
-            loader: "file-loader"
+            loader: 'file-loader'
         }]
     },
     resolve: {

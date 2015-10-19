@@ -1,7 +1,6 @@
-import { Record, Map, List } from 'immutable';
-import MersenneTwister from 'mersennetwister';
+import { Record, Map } from 'immutable';
 
-import { Board, Coordinate, Automaton, encodeStep } from '../game/entities.js';
+import { Board, Coordinate } from '../game/entities.js';
 import { BoardPopulate } from '../game/BoardPopulate';
 
 const State = Record({
@@ -24,10 +23,9 @@ const handlers = {
     },
     POPULATE_TEST_BOARD: (domain, action) => {
         const id = action.payload;
-        const mt = new MersenneTwister(Math.random() * 65535);
 
         if (!domain.boards.has(id)) {
-            throw new Error("Unknown board " + id);
+            throw new Error('Unknown board ' + id);
         }
 
         let board = domain.boards.get(id);
@@ -51,4 +49,4 @@ export default function BoardState(domain, action) {
     } else {
         return domain;
     }
-};
+}

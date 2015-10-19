@@ -1,4 +1,4 @@
-import { Record, Map, List } from 'immutable';
+import { Record } from 'immutable';
 
 const State = Record({
     selectedBoardId: null,
@@ -24,4 +24,4 @@ export default function BoardState(domain, action) {
     } else {
         return domain;
     }
-};
+}

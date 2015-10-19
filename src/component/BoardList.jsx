@@ -16,14 +16,14 @@ export default class BoardList extends React.Component {
                     </td>
                     <td>{board.dim.x} x {board.dim.y}</td>
                     <td>
-                        <ul className="list-unstyled">
+                        <ul className='list-unstyled'>
                             {automatons.map((automaton) =>
                                 <li>{automaton.color} @ ({automaton.position.x}, {automaton.position.y})</li>
                             )}
                         </ul>
                     </td>
                     <td>
-                        <ul className="list-unstyled">
+                        <ul className='list-unstyled'>
                             {board.targets.map((target) =>
                                 <li>{target.automaton.color} @ ({target.position.x}, {target.position.y})</li>
                             )}
@@ -32,7 +32,7 @@ export default class BoardList extends React.Component {
                     <td>{moves.count()}</td>
                     <td>{blocks.count()}</td>
                     <td>
-                        <button type="button" className="btn btn-info" onClick={() => this.props.onPopulateTestBoard(board.id)}>
+                        <button type='button' className='btn btn-info' onClick={() => this.props.onPopulateTestBoard(board.id)}>
                             Test populate
                         </button>
                     </td>
@@ -41,8 +41,8 @@ export default class BoardList extends React.Component {
 
             if (board.id == this.props.selectedBoardId) {
                 boardRows = boardRows.push(
-                    <tr key="selected">
-                        <td colSpan="6">
+                    <tr key='selected'>
+                        <td colSpan='6'>
                             somethibng something
                         </td>
                     </tr>
@@ -53,7 +53,7 @@ export default class BoardList extends React.Component {
         }).flatten().toArray();
 
         return (
-            <table className="table table-striped table-bordered">
+            <table className='table table-striped table-bordered'>
                 <thead>
                     <tr>
                         <th>Board ID</th>

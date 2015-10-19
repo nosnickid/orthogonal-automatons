@@ -12,7 +12,7 @@ export default class BoardDisplay extends React.Component {
             board.automatons.map((automaton) => [automaton.position, 'automaton'])
         );
 
-        const targetClasses = [ 'snowflake', 'heart', 'leaf', 'glass', 'compass' ];
+        const targetClasses = [ 'screenshot', 'heart', 'leaf', 'glass', 'star-empty' ];
         const automatonTargetCount = { };
 
         let positionIcons = Map(
@@ -71,13 +71,13 @@ export default class BoardDisplay extends React.Component {
                     </span>
                 );
             }
-            rows.push(<div key={y} className="board-row">{cells}</div>)
+            rows.push(<div key={y} className='board-row'>{cells}</div>)
         }
 
         return (
-            <div className="row">
-                <div className="col-xs-push-2- col-xs-6">
-                    <div className="gfx-board">
+            <div className='row'>
+                <div className='col-xs-push-2- col-xs-6'>
+                    <div className='gfx-board'>
                         {rows}
                     </div>
                 </div>
